@@ -8,31 +8,30 @@ Width => 360
 package com.mygdx.tankstars;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 
 public class MainPage implements Screen
 {
     private buttons newGame;
     private buttons resumeGame;
     private buttons exit;
-    private Sprite newSprite;
-    private Sprite resumeSprite;
-    private Sprite exitSprite;
-    private Texture newGameTexture;
-    private Texture resumeGameTexture;
-    private Texture exitGameTexture;
-    public MainPage()
+    private MainGame game;
+    public MainPage(MainGame game)
     {
-        this.newGame=new buttons();
-        this.loadGame=new buttons();
-        this.exit=new buttons();
-        this.sprite=new Sprite();
-
+        this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
+        this.newGame=new buttons("Playgame.png","Playclicked.png",320,160,440,520);
+        this.resumeGame=new buttons("ResumeGame.png","Resumeclicked.png",320,160,440,280);
+        
+        // this.resumeGame=new buttons();
+        // this.exit=new buttons();
+        this.game=game;
+        System.out.println("Main Page created");
     }
     @Override
     public void show()
@@ -45,9 +44,41 @@ public class MainPage implements Screen
     public void render(float delta) 
     {
         // TODO Auto-generated method stub
-        ScreenUtils.clear(0,0,0,1);
+        // System.out.println("Main Page should show");
+        ScreenUtils.clear(0.2f,0.6f,0.6f,1);
+        game.batch.begin();
+        int yval=game.getScreenY();
+        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-40) && Gdx.input.getY()>=(yval-200))
+        {
+            // Get the clicked variant
+            game.batch.draw(exit.getClickedTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
+        }
+        else
+        {
+            // Get Unclicked variant
+            game.batch.draw(exit.getTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
 
+        }
+        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-520) && Gdx.input.getY()>=(yval-680))
+        {
+            game.batch.draw(newGame.getClickedTexture(),newGame.getXCoord(),newGame.getYCoord(),newGame.getLength(),newGame.getHeight());
+        }
+        else
+        {
+            game.batch.draw(newGame.getTexture(),newGame.getXCoord(),newGame.getYCoord(),newGame.getLength(),newGame.getHeight());
+            
+        }
+        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-280) && Gdx.input.getY()>=(yval-440))
+        {
+            game.batch.draw(resumeGame.getClickedTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
         
+        }
+        else
+        {
+            game.batch.draw(resumeGame.getTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
+        
+        }
+        game.batch.end();
     }
 
     @Override
