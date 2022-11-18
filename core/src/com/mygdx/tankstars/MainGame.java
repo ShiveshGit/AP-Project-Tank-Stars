@@ -29,7 +29,7 @@ public class MainGame extends Game
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new EndPage(this));
+		this.setScreen(new TankChooser(this));
 		img = new Texture("badlogic.jpg");
 	}
 

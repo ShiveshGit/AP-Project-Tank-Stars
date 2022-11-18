@@ -34,22 +34,10 @@ public class EndPage implements Screen
         ScreenUtils.clear(0.2f,0.6f,0.6f,1);
         game.batch.begin();
         int yval=game.getScreenY();
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=yval-100 && Gdx.input.getY()>=yval-260)
-        {
-            game.batch.draw(exit.getClickedTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
-        }
-        else
-        {
-            game.batch.draw(exit.getTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
-        }
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=yval-460 && Gdx.input.getY()>=yval-620)
-        {
-            game.batch.draw(restartGame.getClickedTexture(),restartGame.getXCoord(),restartGame.getYCoord(),restartGame.getLength(),restartGame.getHeight());
-        }
-        else
-        {
-            game.batch.draw(restartGame.getTexture(),restartGame.getXCoord(),restartGame.getYCoord(),restartGame.getLength(),restartGame.getHeight());
-        }
+        
+        exit.renderthis(game, yval);
+        restartGame.renderthis(game, yval);
+
         game.batch.end();
     }
 

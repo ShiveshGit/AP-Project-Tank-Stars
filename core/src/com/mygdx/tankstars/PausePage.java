@@ -48,36 +48,12 @@ public class PausePage implements Screen
         ScreenUtils.clear(0.6f,0.8f,0.8f,1);
         game.batch.begin();
         int yval=game.getScreenY();
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=yval-40 && Gdx.input.getY()>=yval-200)
-        {
-            // Get the clicked variant
-            game.batch.draw(exit.getClickedTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
-        }
-        else
-        {
-            // Get Unclicked variant
-            game.batch.draw(exit.getTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
+        
+        exit.renderthis(game, yval);
+        saveGame.renderthis(game, yval);
+        resumeGame.renderthis(game, yval);
 
-        }
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=yval-520 && Gdx.input.getY()>=yval-680)
-        {
-            game.batch.draw(saveGame.getClickedTexture(),saveGame.getXCoord(),saveGame.getYCoord(),saveGame.getLength(),saveGame.getHeight());
-        }
-        else
-        {
-            game.batch.draw(saveGame.getTexture(),saveGame.getXCoord(),saveGame.getYCoord(),saveGame.getLength(),saveGame.getHeight());
-            
-        }
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=yval-280 && Gdx.input.getY()>=yval-440)
-        {
-            game.batch.draw(resumeGame.getClickedTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
-        
-        }
-        else
-        {
-            game.batch.draw(resumeGame.getTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
-        
-        }
+
         game.batch.end();
     }
 
