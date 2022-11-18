@@ -6,7 +6,8 @@ Height=> 180
 Width => 360
 */
 package com.mygdx.tankstars;
-
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -22,6 +23,9 @@ public class MainPage implements Screen
     private buttons resumeGame;
     private buttons exit;
     private MainGame game;
+    private BitmapFont font;
+    private String mainText;
+    private GlyphLayout layout;
     public MainPage(MainGame game)
     {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
@@ -32,6 +36,10 @@ public class MainPage implements Screen
         // this.exit=new buttons();
         this.game=game;
         System.out.println("Main Page created");
+        this.mainText="Tank Stars";
+        this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
+        this.layout=new GlyphLayout();
+        layout.setText(font,mainText);
     }
     @Override
     public void show()
@@ -45,8 +53,9 @@ public class MainPage implements Screen
     {
         // TODO Auto-generated method stub
         // System.out.println("Main Page should show");
-        ScreenUtils.clear(0.2f,0.6f,0.6f,1);
+        ScreenUtils.clear(0.2f,0.8f,0.8f,1);
         game.batch.begin();
+        font.draw(game.batch, mainText,310,830);
         int yval=game.getScreenY();
 
         exit.renderthis(game, yval);
