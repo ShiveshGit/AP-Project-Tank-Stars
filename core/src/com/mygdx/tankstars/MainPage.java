@@ -5,15 +5,14 @@ After removing padding => 180
 Height=> 180
 Width => 360
 */
-package com.mygdx;
-
+package com.mygdx.tankstars;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,13 +23,9 @@ public class MainPage implements Screen
     private buttons resumeGame;
     private buttons exit;
     private MainGame game;
-
     private BitmapFont font;
-
     private String mainText;
-
     private GlyphLayout layout;
-
     public MainPage(MainGame game)
     {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
@@ -41,11 +36,10 @@ public class MainPage implements Screen
         // this.exit=new buttons();
         this.game=game;
         System.out.println("Main Page created");
-        this.font=new BitmapFont(Gdx.files.internal("MainPageFont.fnt"));
         this.mainText="Tank Stars";
+        this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.layout=new GlyphLayout();
         layout.setText(font,mainText);
-
     }
     @Override
     public void show()
@@ -59,41 +53,15 @@ public class MainPage implements Screen
     {
         // TODO Auto-generated method stub
         // System.out.println("Main Page should show");
-        ScreenUtils.clear(0.2f,0.6f,0.6f,1);
+        ScreenUtils.clear(0.2f,0.8f,0.8f,1);
         game.batch.begin();
-        font.draw(game.batch, mainText,360,830);
-        font.getData().setScale(1.3f);
+        font.draw(game.batch, mainText,310,830);
         int yval=game.getScreenY();
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-40) && Gdx.input.getY()>=(yval-200))
-        {
-            // Get the clicked variant
-            game.batch.draw(exit.getClickedTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
-        }
-        else
-        {
-            // Get Unclicked variant
-            game.batch.draw(exit.getTexture(),exit.getXCoord(),exit.getYCoord(),exit.getLength(),exit.getHeight());
 
-        }
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-520) && Gdx.input.getY()>=(yval-680))
-        {
-            game.batch.draw(newGame.getClickedTexture(),newGame.getXCoord(),newGame.getYCoord(),newGame.getLength(),newGame.getHeight());
-        }
-        else
-        {
-            game.batch.draw(newGame.getTexture(),newGame.getXCoord(),newGame.getYCoord(),newGame.getLength(),newGame.getHeight());
-            
-        }
-        if(Gdx.input.getX()>=440 && Gdx.input.getX()<=760 && Gdx.input.getY()<=(yval-280) && Gdx.input.getY()>=(yval-440))
-        {
-            game.batch.draw(resumeGame.getClickedTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
-        
-        }
-        else
-        {
-            game.batch.draw(resumeGame.getTexture(),resumeGame.getXCoord(),resumeGame.getYCoord(),resumeGame.getLength(),resumeGame.getHeight());
-        
-        }
+        exit.renderthis(game, yval);
+        newGame.renderthis(game, yval);
+        resumeGame.renderthis(game, yval);
+
         game.batch.end();
     }
 
