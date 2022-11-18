@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 // import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 // import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class MainGame extends Game
 {
 	SpriteBatch batch;
+	public BitmapFont fontcheck;
 	Texture img;
 	Camera camera;
 	Viewport viewport;
@@ -29,7 +31,7 @@ public class MainGame extends Game
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new TankChooser(this));
+		this.setScreen(new SavePage(this));
 		img = new Texture("badlogic.jpg");
 	}
 

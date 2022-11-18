@@ -20,7 +20,6 @@ public class buttons
                 {
                     game.batch.draw(image,XCoord,YCoord,length,height);
                 }
-        
         }
 
         public buttons(String imagePath,String imageClickedPath,int length,int height,float XCoord,float YCoord)

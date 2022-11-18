@@ -1,3 +1,6 @@
+//Pause
+
+
 /*
 Tank Stars Heading =>180
 Every button => 240*3 (for 3 buttons)
