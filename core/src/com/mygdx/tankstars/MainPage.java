@@ -5,7 +5,7 @@ After removing padding => 180
 Height=> 180
 Width => 360
 */
-package com.mygdx.tankstars;
+package com.mygdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -55,7 +55,7 @@ public class MainPage implements Screen
         // System.out.println("Main Page should show");
         ScreenUtils.clear(0.2f,0.8f,0.8f,1);
         game.batch.begin();
-        font.draw(game.batch, mainText,310,830);
+        font.draw(game.batch, mainText,210,830);
         int yval=game.getScreenY();
 
         exit.renderthis(game, yval);

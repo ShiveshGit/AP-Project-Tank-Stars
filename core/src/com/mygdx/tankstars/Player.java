@@ -1,4 +1,4 @@
-package com.mygdx.tankstars;
+package com.mygdx;
 
 public class Player
 {

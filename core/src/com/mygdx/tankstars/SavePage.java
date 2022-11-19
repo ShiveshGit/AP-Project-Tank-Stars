@@ -2,8 +2,9 @@
 
 
 
-package com.mygdx.tankstars;
+package com.mygdx;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -20,9 +21,16 @@ public class SavePage implements Screen
     private MainGame game;
     // private LocalDate 
 
-    // private BitmapFont font;
-    // private GlyphLayout layout;
+     private BitmapFont font;
+     private GlyphLayout layout;
 
+     private String text;
+
+     private BitmapFont mainFont;
+
+     private GlyphLayout mainLayout;
+
+     private String mainText;
 
 
     public SavePage(MainGame game){
@@ -32,10 +40,15 @@ public class SavePage implements Screen
         this.Game4=new buttons("Game4.png","Game4Clicked.png", 300, 100, 100, 160);
         this.Game5=new buttons("Game5.png","Game5Clicked.png", 300, 100, 100, 22);
         this.game=game;
-        
-        
+        this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
+        this.mainText="Save State";
+        this.mainFont=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
+        this.font=new BitmapFont(Gdx.files.internal("SavePage.fnt"));
+        this.mainLayout=new GlyphLayout();
+        this.layout=new GlyphLayout();
+        mainLayout.setText(mainFont,mainText);
+        layout.setText(font,text);
     }
-    
     @Override
     public void show() {
 
@@ -45,14 +58,18 @@ public class SavePage implements Screen
     public void render(float delta) {
         ScreenUtils.clear(0.2f,0.6f,0.6f,1);
         game.batch.begin();
+        mainFont.draw(game.batch,mainText,210,870);
+        font.draw(game.batch,text,500,688);
+        font.draw(game.batch,text,500,544);
+        font.draw(game.batch,text,500,400);
+        font.draw(game.batch,text,500,256);
+        font.draw(game.batch,text,500,112);
         int yval=game.getScreenY();
         Game1.renderthis(game, yval);
         Game2.renderthis(game, yval);
         Game3.renderthis(game, yval);
         Game4.renderthis(game, yval);
         Game5.renderthis(game, yval);
-
-
 
         game.batch.end();
 

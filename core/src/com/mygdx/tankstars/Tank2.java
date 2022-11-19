@@ -1,5 +1,4 @@
-package com.mygdx.tankstars;
-
+package com.mygdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Tank2 extends Tanks

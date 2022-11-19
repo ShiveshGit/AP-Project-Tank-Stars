@@ -1,4 +1,4 @@
-package com.mygdx.tankstars;
+package com.mygdx;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -29,7 +29,8 @@ public class MainGame extends Game
 		return ScreenY;
 	}
 	@Override
-	public void create () {
+	public void create ()
+	{
 		batch = new SpriteBatch();
 		this.setScreen(new SavePage(this));
 		img = new Texture("badlogic.jpg");
