@@ -1,3 +1,6 @@
+//Pause
+
+
 /*
 Tank Stars Heading =>180
 Every button => 240*3 (for 3 buttons)
@@ -12,6 +15,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -22,6 +27,9 @@ public class PausePage implements Screen
     private buttons resumeGame;
     private buttons exit;
     private MainGame game;
+    private BitmapFont font;
+    private String mainText;
+    private GlyphLayout layout;
     public PausePage(MainGame game)
     {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
@@ -31,7 +39,10 @@ public class PausePage implements Screen
         // this.resumeGame=new buttons();
         // this.exit=new buttons();
         this.game=game;
-        System.out.println("Main Page created");
+        this.mainText="Game Paused";
+        this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
+        this.layout=new GlyphLayout();
+        layout.setText(font,mainText);
     }
     @Override
     public void show()
@@ -47,8 +58,8 @@ public class PausePage implements Screen
         // System.out.println("Main Page should show");
         ScreenUtils.clear(0.6f,0.8f,0.8f,1);
         game.batch.begin();
+        font.draw(game.batch, mainText,210,835);
         int yval=game.getScreenY();
-        
         exit.renderthis(game, yval);
         saveGame.renderthis(game, yval);
         resumeGame.renderthis(game, yval);

@@ -55,7 +55,7 @@ public class MainPage implements Screen
         // System.out.println("Main Page should show");
         ScreenUtils.clear(0.2f,0.8f,0.8f,1);
         game.batch.begin();
-        font.draw(game.batch, mainText,310,830);
+        font.draw(game.batch, mainText,210,830);
         int yval=game.getScreenY();
 
         exit.renderthis(game, yval);
