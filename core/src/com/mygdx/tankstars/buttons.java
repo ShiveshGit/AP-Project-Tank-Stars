@@ -1,5 +1,6 @@
 package com.mygdx.tankstars;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 public class buttons 
 {
@@ -11,15 +12,20 @@ public class buttons
         private final float XCoord;
         private final float YCoord;
 
-        public void renderthis(MainGame game,int yval){
+        public boolean renderthis(MainGame game,int yval){
                 if(Gdx.input.getX()>=XCoord && Gdx.input.getX()<=XCoord+length && Gdx.input.getY()<=yval-YCoord && Gdx.input.getY()>=yval-YCoord-height)
                 {
                     game.batch.draw(imageClicked,XCoord,YCoord,length,height);
+                    if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+                    {
+                        return true;
+                    }
                 }
                 else
                 {
                     game.batch.draw(image,XCoord,YCoord,length,height);
                 }
+                return false;
         }
 
         public buttons(String imagePath,String imageClickedPath,int length,int height,float XCoord,float YCoord)

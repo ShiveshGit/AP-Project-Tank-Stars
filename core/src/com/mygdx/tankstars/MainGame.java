@@ -1,5 +1,7 @@
 package com.mygdx.tankstars;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
@@ -7,11 +9,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 // import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MainGame extends Game
+public class MainGame extends Game implements Serializable
 {
 	SpriteBatch batch;
 	public BitmapFont fontcheck;
@@ -20,6 +23,7 @@ public class MainGame extends Game
 	Viewport viewport;
 	private final int ScreenX=1200;
 	private final int ScreenY=900;
+
 	public int getScreenX()
 	{
 		return ScreenX;
@@ -31,8 +35,11 @@ public class MainGame extends Game
 	@Override
 	public void create ()
 	{
+		System.out.println("In create");
 		batch = new SpriteBatch();
-		this.setScreen(new TankChooser(this));
+
+		this.setScreen(new MainPage(this));
+		// this.setScreen(new EndPage(this));
 		img = new Texture("badlogic.jpg");
 	}
 

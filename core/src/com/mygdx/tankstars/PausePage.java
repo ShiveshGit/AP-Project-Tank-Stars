@@ -25,17 +25,23 @@ public class PausePage implements Screen
 {
     private buttons saveGame;
     private buttons resumeGame;
+    // private buttons Back;
     private buttons exit;
     private MainGame game;
     private BitmapFont font;
     private String mainText;
     private GlyphLayout layout;
+    private float elapsed;
+    private boolean flag;
+    private Texture backImg;
+    private SpriteBatch batch1;
+
     public PausePage(MainGame game)
     {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
         this.saveGame=new buttons("SaveGame.png","SaveGameClicked.png",320,160,440,520);
         this.resumeGame=new buttons("ResumeGame.png","Resumeclicked.png",320,160,440,280);
-        
+        // this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
         // this.resumeGame=new buttons();
         // this.exit=new buttons();
         this.game=game;
@@ -43,6 +49,10 @@ public class PausePage implements Screen
         this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.layout=new GlyphLayout();
         layout.setText(font,mainText);
+        batch1=new SpriteBatch();
+        backImg=new Texture("Background.jpg");
+        this.elapsed=0.0f;
+        flag=false;
     }
     @Override
     public void show()
@@ -58,14 +68,38 @@ public class PausePage implements Screen
         // System.out.println("Main Page should show");
         ScreenUtils.clear(0.6f,0.8f,0.8f,1);
         game.batch.begin();
+        batch1.begin();
+        batch1.draw(backImg,0,0,1200,900);
+        batch1.end();
         font.draw(game.batch, mainText,210,835);
         int yval=game.getScreenY();
-        exit.renderthis(game, yval);
-        saveGame.renderthis(game, yval);
-        resumeGame.renderthis(game, yval);
+        if(exit.renderthis(game, yval)==true)
+        {
+            flag=true;
 
-
+            // this.game.create();
+        }
+        if(saveGame.renderthis(game, yval)==true)
+        {
+            this.dispose();
+            this.game.setScreen(new SavePage(this.game));
+        }
+        if(resumeGame.renderthis(game, yval)==true)
+        {
+            this.dispose();
+            // to be added
+        }
         game.batch.end();
+        if(flag)
+        {       
+            this.elapsed+=delta;
+            System.out.println(elapsed);
+            if(this.elapsed>0.5f)
+            {
+                this.dispose();
+                this.game.setScreen(new MainPage(game));
+            }
+        }
     }
 
     @Override

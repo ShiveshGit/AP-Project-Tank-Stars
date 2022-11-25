@@ -18,19 +18,15 @@ public class SavePage implements Screen
     private buttons Game3;
     private buttons Game4;
     private buttons Game5;
+    private buttons Back;
     private MainGame game;
-    // private LocalDate 
 
-     private BitmapFont font;
-     private GlyphLayout layout;
-
-     private String text;
-
-     private BitmapFont mainFont;
-
-     private GlyphLayout mainLayout;
-
-     private String mainText;
+    private BitmapFont font;
+    private GlyphLayout layout;
+    private String text;
+    private BitmapFont mainFont;
+    private GlyphLayout mainLayout;
+    private String mainText;
 
 
     public SavePage(MainGame game){
@@ -39,6 +35,7 @@ public class SavePage implements Screen
         this.Game3=new buttons("Game3.png","Game3Clicked.png", 300, 100, 100, 310);
         this.Game4=new buttons("Game4.png","Game4Clicked.png", 300, 100, 100, 160);
         this.Game5=new buttons("Game5.png","Game5Clicked.png", 300, 100, 100, 22);
+        this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
         this.game=game;
         this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
         this.mainText="Save State";
@@ -70,6 +67,12 @@ public class SavePage implements Screen
         Game3.renderthis(game, yval);
         Game4.renderthis(game, yval);
         Game5.renderthis(game, yval);
+        if(Back.renderthis(game, yval)==true){
+            this.dispose();
+            this.game.setScreen(new PausePage(this.game));
+            
+        }
+
 
         game.batch.end();
 

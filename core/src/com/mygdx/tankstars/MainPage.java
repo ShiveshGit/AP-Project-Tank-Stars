@@ -51,17 +51,32 @@ public class MainPage implements Screen
     @Override
     public void render(float delta) 
     {
+        game.batch.begin();
         // TODO Auto-generated method stub
         // System.out.println("Main Page should show");
-        ScreenUtils.clear(0.2f,0.8f,0.8f,1);
-        game.batch.begin();
+        ScreenUtils.clear(0.2f,0.9f,0.9f,1);
+        
         font.draw(game.batch, mainText,210,830);
+
         int yval=game.getScreenY();
 
-        exit.renderthis(game, yval);
-        newGame.renderthis(game, yval);
-        resumeGame.renderthis(game, yval);
+        if(exit.renderthis(game, yval)==true)
+        {
+            System.out.println("inr");
 
+            System.exit(0);
+        }
+        if(newGame.renderthis(game, yval)==true)
+        {
+            this.dispose();
+            this.game.setScreen(new TankChooser(this.game));
+        }
+        if(resumeGame.renderthis(game, yval)==true)
+        {
+            this.dispose();
+            this.game.setScreen(new LoadPage(this.game));
+
+        }
         game.batch.end();
     }
 

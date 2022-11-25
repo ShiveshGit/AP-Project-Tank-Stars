@@ -15,6 +15,7 @@ public class LoadPage implements Screen {
     private buttons Game3;
     private buttons Game4;
     private buttons Game5;
+    private buttons Back;
     private MainGame game;
 
     private BitmapFont font;
@@ -34,6 +35,7 @@ public class LoadPage implements Screen {
         this.Game3=new buttons("Game3.png","Game3Clicked.png", 300, 100, 100, 310);
         this.Game4=new buttons("Game4.png","Game4Clicked.png", 300, 100, 100, 160);
         this.Game5=new buttons("Game5.png","Game5Clicked.png", 300, 100, 100, 22);
+        this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
         this.game=game;
         this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
         this.mainText="Load Game";
@@ -67,6 +69,12 @@ public class LoadPage implements Screen {
         Game3.renderthis(game, yval);
         Game4.renderthis(game, yval);
         Game5.renderthis(game, yval);
+        if(Back.renderthis(game, yval)==true){
+            this.dispose();
+            this.game.setScreen(new MainPage(this.game));
+            
+        }
+
         game.batch.end();
 
     }
