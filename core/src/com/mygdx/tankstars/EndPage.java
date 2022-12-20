@@ -31,20 +31,19 @@ public class EndPage implements Screen
 
 
     public EndPage(MainGame mgame){
+        this.game=mgame;
+    }
+    @Override
+    public void show() 
+    {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,100);
         this.restartGame=new buttons("Restart.png","RestartClicked.png",320,160,440,460);
-        this.game=mgame;
         this.mainText="Game Over !!!";
         this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.layout=new GlyphLayout();
         layout.setText(font,mainText);
         batch1=new SpriteBatch();
         backImg=new Texture("Background.jpg");
-
-    }
-    @Override
-    public void show() 
-    {
 
     }
     @Override

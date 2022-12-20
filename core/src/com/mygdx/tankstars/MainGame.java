@@ -39,7 +39,9 @@ public class MainGame extends Game implements Serializable
 		batch = new SpriteBatch();
 
 		this.setScreen(new MainPage(this));
-		// this.setScreen(new EndPage(this));
+		// this.setScreen(new New(this,1,2));
+		System.out.println("In create");
+
 		img = new Texture("badlogic.jpg");
 	}
 

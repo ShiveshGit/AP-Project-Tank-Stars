@@ -30,13 +30,17 @@ public class LoadPage implements Screen {
     private String mainText;
 
     public LoadPage(MainGame game){
+        this.game=game;
+    }
+
+    @Override
+    public void show() {
         this.Game1=new buttons("Game1.png","Game1Clicked.png", 300, 100, 100, 598);
         this.Game2=new buttons("Game2.png","Game2Clicked.png", 300, 100, 100, 454);
         this.Game3=new buttons("Game3.png","Game3Clicked.png", 300, 100, 100, 310);
         this.Game4=new buttons("Game4.png","Game4Clicked.png", 300, 100, 100, 160);
         this.Game5=new buttons("Game5.png","Game5Clicked.png", 300, 100, 100, 22);
         this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
-        this.game=game;
         this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
         this.mainText="Load Game";
         this.mainFont=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
@@ -45,11 +49,6 @@ public class LoadPage implements Screen {
         this.layout=new GlyphLayout();
         mainLayout.setText(mainFont,mainText);
         layout.setText(font,text);
-        
-    }
-
-    @Override
-    public void show() {
 
     }
 
@@ -74,9 +73,7 @@ public class LoadPage implements Screen {
             this.game.setScreen(new MainPage(this.game));
             
         }
-
         game.batch.end();
-
     }
 
     @Override

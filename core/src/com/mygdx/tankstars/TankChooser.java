@@ -40,6 +40,11 @@ public class TankChooser implements Screen
     private float   elapsed;
     
     public TankChooser(MainGame game){
+        this.game=game;
+    }
+
+    @Override
+    public void show() {
         this.ChooseP1_1=new buttons("Choose.png","ChooseClicked.png",300,70,50,460);
         this.ChooseP1_2=new buttons("Choose.png","ChooseClicked.png",300,70,450,460);
         this.ChooseP1_3=new buttons("Choose.png","ChooseClicked.png",300,70,850,460);
@@ -49,7 +54,6 @@ public class TankChooser implements Screen
         this.Tank1=new Texture("Tank1.png");
         this.Tank2=new Texture("Tank2.png");
         this.Tank3=new Texture("Tank3.png");
-        this.game=game;
         this.text1="Player 1";
         this.text2="Player 2";
         this.font=new BitmapFont(Gdx.files.internal("TankChooserPage.fnt"));
@@ -63,10 +67,6 @@ public class TankChooser implements Screen
         this.check2=false;
         this.Rectangle=new Texture("Rectangle.png");
         this.elapsed=0f;
-    }
-
-    @Override
-    public void show() {
 
     }
 
@@ -152,7 +152,8 @@ public class TankChooser implements Screen
             this.dispose();
             // System.out.println("P1 Tank= "+p1Tank+"P2 Tank = "+p2Tank);
             if(this.elapsed>1.2f)
-            this.game.setScreen(new TankGame(this.game,p1Tank,p2Tank));
+//                this.game.setScreen(new TankGame(this.game,p1Tank,p2Tank));
+            this.game.setScreen(new New(this.game,p1Tank,p2Tank));
         }
         game.batch.end();
     }

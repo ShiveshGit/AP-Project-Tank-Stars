@@ -28,23 +28,23 @@ public class MainPage implements Screen
     private GlyphLayout layout;
     public MainPage(MainGame game)
     {
-        this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
-        this.newGame=new buttons("Playgame.png","Playclicked.png",320,160,440,520);
-        this.resumeGame=new buttons("ResumeGame.png","Resumeclicked.png",320,160,440,280);
-        
-        // this.resumeGame=new buttons();
-        // this.exit=new buttons();
         this.game=game;
-        System.out.println("Main Page created");
-        this.mainText="Tank Stars";
-        this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
-        this.layout=new GlyphLayout();
-        layout.setText(font,mainText);
     }
     @Override
     public void show()
     {
         // TODO Auto-generated method stub
+        this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
+        this.newGame=new buttons("Playgame.png","Playclicked.png",320,160,440,520);
+        this.resumeGame=new buttons("ResumeGame.png","Resumeclicked.png",320,160,440,280);
+
+        // this.resumeGame=new buttons();
+        // this.exit=new buttons();
+        System.out.println("Main Page created");
+        this.mainText="Tank Stars";
+        this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
+        this.layout=new GlyphLayout();
+        layout.setText(font,mainText);
 
     }
 

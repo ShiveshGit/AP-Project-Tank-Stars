@@ -6,37 +6,38 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+
 public class Ground implements Serializable{
 
-    private ArrayList<Integer> YCoords;
-    private	ShapeRenderer shapeRenderer;
-
-    Ground(){
-        YCoords=new ArrayList<>();
+    private static ArrayList<Body> groundInstance;
+    private static Ground ground=null;
+    public static Ground getInstance()
+    {
+        if(ground==null)
         {
-            for(int i=0;i<1200;i++)
-            {
-                YCoords.add(i,300);
-            }
+            groundInstance=new ArrayList<>();
+            ground=new Ground();
         }
-        shapeRenderer=new ShapeRenderer();
-
+        return ground;
     }
-
-    public void createGround(){
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		shapeRenderer.setColor(Color.BROWN);
-        for(int i=0;i<1200;i++){
-            // System.out.println(YCoords.get(i));
-            shapeRenderer.rect(i,0,1,YCoords.get(i)); // Creates a filled rectangle of white color
-        }
-        shapeRenderer.end();
-
-		
+    public void add(Body b)
+    {
+        groundInstance.add(b);
     }
-
-    public int getYCoord(int x) {
-        return YCoords.get(x);
+    private Ground()
+    {
+        
     }
 }

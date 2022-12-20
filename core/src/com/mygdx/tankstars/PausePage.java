@@ -38,13 +38,18 @@ public class PausePage implements Screen
 
     public PausePage(MainGame game)
     {
+        this.game=game;
+    }
+    @Override
+    public void show()
+    {
+        // TODO Auto-generated method stub
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,40);
         this.saveGame=new buttons("SaveGame.png","SaveGameClicked.png",320,160,440,520);
         this.resumeGame=new buttons("ResumeGame.png","Resumeclicked.png",320,160,440,280);
         // this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
         // this.resumeGame=new buttons();
         // this.exit=new buttons();
-        this.game=game;
         this.mainText="Game Paused";
         this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.layout=new GlyphLayout();
@@ -53,11 +58,6 @@ public class PausePage implements Screen
         backImg=new Texture("Background.jpg");
         this.elapsed=0.0f;
         flag=false;
-    }
-    @Override
-    public void show()
-    {
-        // TODO Auto-generated method stub
 
     }
 
