@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Tanks implements Serializable{
+public class Tanks implements Serializable{
     protected int HP;
     protected int Fuel;
     protected Texture Body;
@@ -19,8 +19,21 @@ public abstract class Tanks implements Serializable{
     protected final int speed=20;
     protected Nozzle nozzle;
     protected SpriteBatch bodySprite;
-
-
+    public static Tanks CreateTank(int no)
+    {
+        if(no==1)
+        {
+            return new Tank1();
+        }
+        else if(no==2)
+        {
+            return new Tank2();
+        }
+        else
+        {
+            return new Tank3();
+        }
+    }
     public Texture getTexture() {
         return Body;
     }
@@ -39,6 +52,14 @@ public abstract class Tanks implements Serializable{
 
     public float getYCoord() {
         return yCordBody;
+    }
+
+    public Texture getTextureFlipped() {
+        return BodyFlipped;
+    }
+
+    public Sprite getNozzle() {
+        return nozzle.pipeSprite;
     }
 
     public class Nozzle implements Serializable
@@ -87,21 +108,16 @@ public abstract class Tanks implements Serializable{
         }
     }
 
-    void renderthis(MainGame game,boolean p1){
+    public void renderthis(MainGame game,boolean p1){
         nozzle.NozzleBatch.begin();
-        // nozzle.pipeSprite.set
         nozzle.pipeSprite.setRotation((float)nozzle.angle);
-        // nozzle.pipeSprite.setSize(nozzle.getLenght(),getHeight());
-        // nozzle.pipeSprite.setPosition(nozzle.getxCoordinate(), nozzle.getyCoordinate());
         if(nozzle.angle<90)
         {
-            // nozzle.pipeSprite.draw(nozzle.NozzleBatch);
             nozzle.NozzleBatch.draw(nozzle.pipeSprite,nozzle.getxCoordinate(),nozzle.getyCoordinate(),100,5,nozzle.getLenght(),nozzle.getHeight(),1f,1f,nozzle.pipeSprite.getRotation());
             game.batch.draw(Body,xCordBody,yCordBody,Lenght,Height);
 
         }
         else{
-            // nozzle.pipeSprite.draw(nozzle.NozzleBatch);
 
             nozzle.NozzleBatch.draw(nozzle.pipeSprite,nozzle.getxCoordinate(),nozzle.getyCoordinate(),100,5,nozzle.getLenght(),nozzle.getHeight(),1f,1f,nozzle.pipeSprite.getRotation());
             game.batch.draw(BodyFlipped,xCordBody,yCordBody,Lenght,Height);
@@ -109,13 +125,4 @@ public abstract class Tanks implements Serializable{
         }
         nozzle.NozzleBatch.end();
     }
-
-    public abstract void move();
-    public abstract void fire();
 }
-/*
-length=200
-height=10
-
-
- */

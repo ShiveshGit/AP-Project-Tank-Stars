@@ -1,6 +1,7 @@
 package com.mygdx.tankstars;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -11,8 +12,7 @@ public class Projectile {
     private Body bulletBody;
     private boolean isActive;
 
-    private float power;
-    private float angle;
+    private Sprite sprite;
 
     private World world;
     Projectile(Texture bullet,World world)
@@ -29,7 +29,6 @@ public class Projectile {
 
     public boolean isFired() {
         return isActive;
-
     }
 
     public Texture getBullet()
@@ -40,10 +39,11 @@ public class Projectile {
     {
         return bulletBody;
     }
-    void damage(Player P2){
-
+    void damage(Player P){
+        P.getHP().decrease(5f);
     }
     void damage(Ground ground){
+        ground.decrease(5f,bulletBody.getPosition());
         
     }
     public void setBody(Player player) {
@@ -52,20 +52,23 @@ public class Projectile {
         bdef.type=BodyDef.BodyType.DynamicBody;
         bdef.position.set(body.getPosition().x,body.getPosition().y+1.5f);
         CircleShape cs=new CircleShape();
-        cs.setRadius(0.2f);
+        cs.setRadius(0.3f);
         FixtureDef fdef=new FixtureDef();
         fdef.shape=cs;
-        fdef.density=5f;
+        fdef.density=200f;
         fdef.friction=0.5f;
         fdef.restitution=0.1f;
         bulletBody=world.createBody(bdef);
         bulletBody.createFixture(fdef).setUserData(this);
         cs.dispose();
         System.out.println("Bullet body set");
+        bulletBody.setUserData(this);
+        this.sprite=new Sprite(bullet);
+        sprite.setSize(0.2f,0.2f);
     }
     public void Fire(float power,float angle)
     {
-        float p=power/20;
+        float p=power*10;
         isActive=true;
         System.out.println(p*MathUtils.cosDeg(angle)+" "+p*MathUtils.sinDeg(angle));
         bulletBody.applyLinearImpulse(new Vector2(p*MathUtils.cosDeg(angle),p*MathUtils.sinDeg(angle)),bulletBody.getWorldCenter(),true);
@@ -73,5 +76,9 @@ public class Projectile {
 
     public void checkProjectile(){
 
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

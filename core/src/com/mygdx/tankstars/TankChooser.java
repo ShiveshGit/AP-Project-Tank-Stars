@@ -151,9 +151,13 @@ public class TankChooser implements Screen
             this.elapsed+=delta;
             this.dispose();
             // System.out.println("P1 Tank= "+p1Tank+"P2 Tank = "+p2Tank);
-            if(this.elapsed>1.2f)
-//                this.game.setScreen(new TankGame(this.game,p1Tank,p2Tank));
-            this.game.setScreen(new New(this.game,p1Tank,p2Tank));
+            if(this.elapsed>1.2f){
+                New n=new New(this.game,p1Tank,p2Tank);
+                game.setNew(n);
+            //                this.game.setScreen(new TankGame(this.game,p1Tank,p2Tank));
+                this.game.setScreen(n);
+                
+            }
         }
         game.batch.end();
     }

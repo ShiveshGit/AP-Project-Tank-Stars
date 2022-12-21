@@ -25,20 +25,31 @@ public class EndPage implements Screen
     private BitmapFont font;
     private String mainText;
     private GlyphLayout layout;
+    private int win;
 
     private Texture backImg;
     private SpriteBatch batch1;
 
 
-    public EndPage(MainGame mgame){
+    public EndPage(MainGame mgame,int win){
         this.game=mgame;
+        this.win=win;
+
     }
     @Override
     public void show() 
     {
         this.exit=new buttons("Exit.png","Exitclicked.png",320,160,440,100);
         this.restartGame=new buttons("Restart.png","RestartClicked.png",320,160,440,460);
-        this.mainText="Game Over !!!";
+        // this.mainText="Game Over !!!";
+        if(win==1)
+        {
+            this.mainText="Player-1 Wins";
+        }
+        else
+        {
+            this.mainText="Player-2 Wins";
+        }
         this.font=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.layout=new GlyphLayout();
         layout.setText(font,mainText);

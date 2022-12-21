@@ -1,11 +1,9 @@
 package com.mygdx.tankstars;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,8 +13,10 @@ import com.badlogic.gdx.utils.Array;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class New implements Screen {
+    public Preferences getGround;
     private World world;
     private Box2DDebugRenderer dbr;
     private OrthographicCamera cam;
@@ -39,17 +39,28 @@ public class New implements Screen {
     private Projectile projectile;
 
     private boolean turn;
-
+    private BitmapFont font;
+    private String str;
+    private ArrayList<Texture> numbers;
     public New(MainGame game, int p1Tank, int p2Tank) {
         this.game = game;
         // tank1 = new Tank1(200, 200);
         // tank2 = new Tank2(800, 200);
         this.ground=Ground.getInstance();
+        this.ground.clearArray();
         this.P1=new Player(p1Tank,true,200,200);
         this.P2=new Player(p2Tank,false,800,200);
-
+        this.font=new BitmapFont((Gdx.files.internal("InGame.fnt")));
+        this.numbers=new ArrayList<Texture>();
+        for(int i=0;i<10;i++)
+        {
+            String str="";
+            str+=i;
+            str+=".png";
+            Texture T=new Texture(str);
+            numbers.add(T);
+        }
     }
-
 
     @Override
     public void show() {
@@ -60,82 +71,9 @@ public class New implements Screen {
         dbr=new Box2DDebugRenderer();
         cam=new OrthographicCamera(Gdx.graphics.getWidth()/30,Gdx.graphics.getHeight()/30);
 
-        BodyDef bdef=new BodyDef();
-        FixtureDef fdef=new FixtureDef();
-
-        PolygonShape rect1=new PolygonShape();
-        rect1.setAsBox(1,0.45f);
-
-        CircleShape ball1=new CircleShape();
-        ball1.setRadius(0.5f);
-        ball1.setPosition(new Vector2(1f,0));
-
-        CircleShape ball2=new CircleShape();
-        ball2.setRadius(0.5f);
-        ball2.setPosition(new Vector2(-1f,0));
-
-        //box
-        bdef.type=BodyDef.BodyType.DynamicBody;
-        bdef.position.set(-5,5);
-
-        fdef.density=2.5f;
-        fdef.friction=0.5f;
-        fdef.restitution=0f;
-        fdef.shape=rect1;
-        // P1.getPlayerBody()=world.createBody(bdef);
-        P1.createBody(world, bdef);
-        Sprite t1=new Sprite(P1.getTank().Body);    //
-        t1.setSize(3,2);
-        t1.setOriginCenter();
-        // P1.getPlayerBody().setUserData(t1);
-        P1.setData(t1);
-        P1.getPlayerBody().createFixture(fdef);
-        P1.setFixture(fdef);
-        fdef.shape=ball1;
-        P1.getPlayerBody().createFixture(fdef);
-        P1.setFixture(fdef);
-        fdef.shape=ball2;
-        P1.getPlayerBody().createFixture(fdef);
-        P1.setFixture(fdef);
-        
-        bdef.position.set(5,5);
-        P2.createBody(world, bdef);
-        Sprite t2=new Sprite(P2.getTank().BodyFlipped);//
-        t2.setSize(3,2);
-        t2.setOriginCenter();
-        P2.setData(t2);
-        fdef.shape=rect1;
-        P2.setFixture(fdef);
-        fdef.shape=ball1;
-        P2.setFixture(fdef);
-        fdef.shape=ball2;
-        P2.setFixture(fdef);
-        float t=(float)(Math.random()*0.3f);
-        for(float i=-25;i<25;i+=0.1f){
-            BodyDef bd=new BodyDef();
-            bd.type= BodyDef.BodyType.KinematicBody;
-            float rand=(float)0.3 + (float)0.7 * (float)Math.sin(i/3);
-            float rand1=(float)0.3 + t * (float)Math.sin(i/2);
-            bd.position.set(i,-12+rand+rand1);
-
-            //shape
-            PolygonShape ps=new PolygonShape();
-            ps.setAsBox(0.05f,10);
-//            if(Math.round(i)==-21 || Math.round(i)==21){
-//                ps.setAsBox(0.05f,20);
-//            }
-
-            //fixture
-            FixtureDef fd=new FixtureDef();
-            fd.density=2.5f;
-            fd.friction=1f;
-            fd.restitution=0f;
-            fd.shape=ps;
-            Body b=world.createBody(bd);
-            b.createFixture(fd);
-            ground.add(b);
-            ps.dispose();
-        }
+        P1.createBody(world,true);
+        P2.createBody(world,false);
+        ground.createBody(world);
         projectile=new Projectile(new Texture("badlogic.jpg"),world);
         backImg=new Texture("Background.jpg");
 
@@ -150,23 +88,113 @@ public class New implements Screen {
 
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-//        batch.draw(backImg,-20,-15,40,30);
+        batch.draw(backImg,-20,-15,40,30);
         Array<Body> bodies=new Array<Body>();
         world.getBodies(bodies);
         for(Body b:bodies) {
-            if (b != null && b.getUserData() instanceof Sprite) {
-                Sprite s = (Sprite) b.getUserData();
-                s.setPosition(b.getPosition().x-s.getWidth()/2, b.getPosition().y-s.getHeight()/3);
-                s.setRotation(b.getAngle() * MathUtils.radiansToDegrees);
-                s.draw(batch);
-            }
+            DisplaySprites(b);
         }
+        // this.str="";
+        // this.str+=(int)P1.getAngle();
+        // font.draw(batch,str,-15,-12);
+        // font.getData().setScale(0.01f, 0.01f);
+        // this.str="";
+        // this.str+=(int)P2.getAngle();
+        // font.draw(batch,str,15,-12);
+        P1.getHP().renderthis(batch);
+        P2.getHP().renderthis(batch);
+        P1.getPower().renderthis(batch);
+        P2.getPower().renderthis(batch);
+        P1.getFuel().renderthis(batch);
+        P2.getFuel().renderthis(batch);
+        float p1=P1.getAngle();
+        float p2=P2.getAngle();
+        int a=(int)p1;
+        int b=(int)p2;
+        int onesDigit;
+        int tensDigit;
+        int hundredsDigit;
+        if(a>99)
+        {
+            onesDigit=a%10;
+            tensDigit=(a/10)%10;
+            hundredsDigit=a/100;  
+        }
+        else
+        {
+            onesDigit=(a%10);
+            tensDigit=(a/10)%10;
+            hundredsDigit=0;
+        }
+//        System.out.println(p1+" "+onesDigit+" "+tensDigit+" "+hundredsDigit);
+        batch.draw(numbers.get(onesDigit),-14f,-13f,1f,1f);
+        batch.draw(numbers.get(tensDigit),-15f,-13f,1f,1f);
+        batch.draw(numbers.get(hundredsDigit),-16f,-13f,1f,1f);
+        if(b>99)
+        {
+            onesDigit=(b%10);
+            tensDigit=(b/10)%10;
+            hundredsDigit=(b/100);
+        }
+        else
+        {
+            onesDigit=(b%10);
+            tensDigit=(b/10)%10;
+            hundredsDigit=0;
+        }
+//        System.out.println(p2+" "+onesDigit+"-"+tensDigit+"-"+hundredsDigit);
+        batch.draw(numbers.get(onesDigit),14f,-13f,1f,1f);
+        batch.draw(numbers.get(tensDigit),13f,-13f,1f,1f);
+        batch.draw(numbers.get(hundredsDigit),12f,-13f,1f,1f);
+        if(P1.getHP().getHealth()<=0)
+        {
+            game.setScreen(new EndPage(game,2));
+        }
+        if(P2.getHP().getHealth()<=0)
+        {
+            game.setScreen(new EndPage(game,1));
+        }
+        
+        // font.getData().setScale(0.01f, 0.01f);``
+        // font.getData().setScale(0.01f);
         batch.end();
 //        int a=world.getBodyCount();
 //        System.out.println(a);
-        dbr.render(world,cam.combined);
+        // dbr.render(world,cam.combined);
+        ground.checkvelocity();
         world.step(TIMESTEP, VELOCITYITERATIONS, POSITIONITERATIONS);
         cam.update();
+
+    }
+
+    private void DisplaySprites(Body b) {
+        if (b != null && b.getUserData() instanceof Sprite) {
+            Sprite s = (Sprite) b.getUserData();
+            s.setPosition(b.getPosition().x-s.getWidth()/2, b.getPosition().y-s.getHeight()/3);
+            s.setRotation(b.getAngle() * MathUtils.radiansToDegrees);
+            s.draw(batch);
+        }
+        else if (b != null && b.getUserData() instanceof Projectile) {
+            Projectile p = (Projectile) b.getUserData();
+            Sprite s=p.getSprite();
+            s.setPosition(b.getPosition().x-s.getWidth()/2, b.getPosition().y-s.getHeight()/3);
+            s.setRotation(b.getAngle() * MathUtils.radiansToDegrees);
+            s.draw(batch);
+        }
+        if (b != null && b.getUserData() instanceof Player) {
+            Player p = (Player) b.getUserData();
+            Sprite s=p.getSprite();
+            Sprite s1=p.getNozzle();
+            s1.setPosition(b.getPosition().x-s1.getWidth()/2, b.getPosition().y-s1.getHeight()/3+0.7f);
+            s1.setRotation(5);
+            System.out.println(p.getAngle());
+            s1.setSize(3f, 0.5f);
+            s.setPosition(b.getPosition().x-s.getWidth()/2, b.getPosition().y-s.getHeight()/3);
+            s.setRotation(b.getAngle() * MathUtils.radiansToDegrees);
+            batch.draw(s1,b.getPosition().x-s1.getWidth()/2,b.getPosition().y-s1.getHeight()/3+0.7f,1.5f,0.2f,3f,0.4f,1f,1f,p.getAngle());
+            s1.draw(batch);
+            s.draw(batch);
+        }
 
     }
 
@@ -178,11 +206,19 @@ public class New implements Screen {
         if(!(projectile.isFired())){
             if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
             {
-                p.getPlayerBody().setLinearVelocity(-1,0);
+                if(p.getFuel().getFuel()>0)
+                {
+                    p.getPlayerBody().setLinearVelocity(-1,0);
+                    p.getFuel().decrease(1f);
+                }
             }
             if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             {
-                p.getPlayerBody().setLinearVelocity(1,0);
+                if(p.getFuel().getFuel()>0)
+                {
+                    p.getPlayerBody().setLinearVelocity(1,0);
+                    p.getFuel().decrease(1f);
+                }
             }
             if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
             {
@@ -206,6 +242,10 @@ public class New implements Screen {
             }
         }
         checkprojectile();
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+        {
+            game.setScreen(new PausePage(game));
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.I))
         {
             cam.zoom+=0.02;
@@ -229,8 +269,9 @@ public class New implements Screen {
 
 
     private void FireProjectile(Player player) {
+        player.getFuel().increase(100);
         projectile.setBody(player);
-        projectile.Fire(player.getPower(),player.getAngle());
+        projectile.Fire(player.getPower().getPower(),player.getAngle());
         turn=!turn;
     }
 
@@ -260,6 +301,18 @@ public class New implements Screen {
     public void dispose() {
         world.dispose();
         dbr.dispose();
+    }
+
+    public Player getPlayer1() {
+        return P1;
+    }
+
+    public Player getPlayer2() {
+        return P2;
+    }
+
+    public Ground getGround() {
+        return ground;
     }
 }
 

@@ -37,14 +37,13 @@ public class SavePage implements Screen
         this.Game5=new buttons("Game5.png","Game5Clicked.png", 300, 100, 100, 22);
         this.Back=new buttons("Back.png","BackClicked.png",100,50,1050,10);
         this.game=game;
-        this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
+        // this.text="Last Saved:\nDD-MM-YYYY Hrs:Sec\n(Functionality will be added afterwards)";
         this.mainText="Save State";
         this.mainFont=new BitmapFont(Gdx.files.internal("MainPage.fnt"));
         this.font=new BitmapFont(Gdx.files.internal("SavePage.fnt"));
         this.mainLayout=new GlyphLayout();
         this.layout=new GlyphLayout();
         mainLayout.setText(mainFont,mainText);
-        layout.setText(font,text);
     }
     @Override
     public void show() {
@@ -56,23 +55,47 @@ public class SavePage implements Screen
         ScreenUtils.clear(0.2f,0.6f,0.6f,1);
         game.batch.begin();
         mainFont.draw(game.batch,mainText,210,870);
-        font.draw(game.batch,text,500,688);
-        font.draw(game.batch,text,500,544);
-        font.draw(game.batch,text,500,400);
-        font.draw(game.batch,text,500,256);
-        font.draw(game.batch,text,500,112);
+        layout.setText(font,game.getDates().get(0));
+        font.draw(game.batch,game.getDates().get(0),500,688);
+        layout.setText(font,game.getDates().get(1));
+        font.draw(game.batch,game.getDates().get(1),500,544);
+        layout.setText(font,game.getDates().get(2));
+        font.draw(game.batch,game.getDates().get(2),500,400);
+        layout.setText(font,game.getDates().get(3));
+        font.draw(game.batch,game.getDates().get(3),500,256);
+        layout.setText(font,game.getDates().get(4));
+        font.draw(game.batch,game.getDates().get(4),500,112);
         int yval=game.getScreenY();
         Game1.renderthis(game, yval);
         Game2.renderthis(game, yval);
         Game3.renderthis(game, yval);
         Game4.renderthis(game, yval);
         Game5.renderthis(game, yval);
+        if(Game1.renderthis(game, yval)==true)
+        {
+            game.SaveS(0);
+            game.setDates(0);
+        }
+        else if(Game2.renderthis(game, yval)==true){
+            game.SaveS(1);
+            game.setDates(1);
+        }
+        else if(Game3.renderthis(game, yval)==true){
+            game.SaveS(2);
+            game.setDates(2);
+        }
+        else if(Game4.renderthis(game, yval)==true){
+            game.SaveS(3);
+            game.setDates(3);
+        }
+        else if(Game5.renderthis(game, yval)==true){
+            game.SaveS(4);
+            game.setDates(4);
+        }
         if(Back.renderthis(game, yval)==true){
             this.dispose();
             this.game.setScreen(new PausePage(this.game));
-            
         }
-
 
         game.batch.end();
 
